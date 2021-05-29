@@ -41,7 +41,15 @@ public class LexicalAnalysis implements AutoCloseable {
                     // TODO: Implement me!
                     break;
                 case 2:
-                    // TODO: Implement me!
+                    if (c == '\n') {
+                        state = 1;
+                    }
+                    else if (c == -1) {
+                        lex.type = TokenType.END_OF_FILE;
+                    }
+                    else {
+                        state = 2;
+                    }
                     break;
                 case 3:
                     // TODO: Implement me!
@@ -59,16 +67,51 @@ public class LexicalAnalysis implements AutoCloseable {
                     // TODO: Implement me!
                     break;
                 case 8:
-                    // TODO: Implement me!
+                    if (c == '=') {
+                        lex.token += (char) c;
+                        state = 12;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            lex.type = TokenType.INVALID_TOKEN;
+                        }
+                    }
                     break;
                 case 9:
                     // TODO: Implement me!
                     break;
                 case 10:
-                    // TODO: Implement me!
+                    if (Character.isDigit(c)) {
+                        lex.token += (char) c;
+                        state = 6;
+                    }
+                    else {
+                        if (c != -1) {
+                            ungetc(c);
+                        }
+                        lex.type = TokenType.INTEGER;
+                        state = 13;
+                    }
                     break;
                 case 11:
-                    // TODO: Implement me!
+                    if (c != '\'') {
+                        lex.token += (char) c;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            lex.token += (char) c;
+                            lex.type = TokenType.STRING;
+                            state = 13;
+                        }
+                    }
                     break;
                 default:
                     throw new LexicalException("Unreachable");
