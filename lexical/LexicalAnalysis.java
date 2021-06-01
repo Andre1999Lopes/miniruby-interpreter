@@ -38,7 +38,75 @@ public class LexicalAnalysis implements AutoCloseable {
             
             switch (state) {
                 case 1:
-                    // TODO: Implement me!
+                    if (c == ' ' || c == '\r' || c == '\t') {
+                        state = 1;
+                    }
+                    else if (c == '\n') {
+                        line++;
+                        state = 1;
+                    }
+                    else if (c == '#') {
+                        state = 2;
+                    }
+                    else if (c == '.') {
+                        lex.token += (char) c;
+                        state = 3;
+                    }
+                    else if (c == '=') {
+                        lex.token += (char) c;
+                        state = 5;
+                    }
+                    else if (c == '<' || c == '>') {
+                        lex.token += (char) c;
+                        state = 6;
+                    }
+                    else if (c == '*') {
+                        lex.token += (char) c;
+                        state = 7;
+                    }
+                    else if (c == '!') {
+                        lex.token += (char) c;
+                        state = 8;
+                    }
+                    else if (
+                        c == ';' ||
+                        c == ',' ||
+                        c == '+' ||
+                        c == '-' ||
+                        c == '%' ||
+                        c == '/' ||
+                        c == '[' ||
+                        c == ']' ||
+                        c == '(' ||
+                        c == ')'
+                        )
+                    {
+                        lex.token += (char) c;
+                        state = 12;
+                    }
+                    else if (c == '_' || Character.isLetter(c)) {
+                        lex.token += (char) c;
+                        state = 9;
+                    }
+                    else if (Character.isDigit(c)) {
+                        lex.token += (char) c;
+                        state = 10;
+                    }
+                    else if (c == '\'') {
+                        lex.token += (char) c;
+                        state = 11;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.END_OF_FILE;
+                            state = 13;
+                        }
+                        else {
+                            lex.token += (char) c;
+                            lex.type = TokenType.INVALID_TOKEN;
+                            state = 13;
+                        }
+                    }
                     break;
                 case 2:
                     if (c == '\n') {
