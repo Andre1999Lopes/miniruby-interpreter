@@ -52,19 +52,84 @@ public class LexicalAnalysis implements AutoCloseable {
                     }
                     break;
                 case 3:
-                    // TODO: Implement me!
+                    if (c == '.') {
+                        lex.token += (char) c;
+                        state = 4;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 4:
-                    // TODO: Implement me!
+                    if (c == '.') {
+                        lex.token += (char) c;
+                        state = 12;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 5:
-                    // TODO: Implement me!
+                    if (c == '=') {
+                        lex.token += (char) c;
+                        state = 6;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 6:
-                    // TODO: Implement me!
+                    if (c == '=') {
+                        lex.token += (char) c;
+                        state = 12;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 7:
-                    // TODO: Implement me!
+                    if (c == '*') {
+                        lex.token += (char) c;
+                        state = 12;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 8:
                     if (c == '=') {
@@ -82,19 +147,35 @@ public class LexicalAnalysis implements AutoCloseable {
                     }
                     break;
                 case 9:
-                    // TODO: Implement me!
+                    if (c == '_' || Character.isLetter(c) || Character.isDigit(c)) {
+                        lex.token += (char) c;
+                        state = 9;
+                    }
+                    else {
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
+                            state = 13;
+                        }
+                        else {
+                            ungetc(c);
+                            state = 12;
+                        }
+                    }
                     break;
                 case 10:
                     if (Character.isDigit(c)) {
                         lex.token += (char) c;
-                        state = 6;
+                        state = 10;
                     }
                     else {
-                        if (c != -1) {
-                            ungetc(c);
+                        if (c == -1) {
+                            lex.type = TokenType.UNEXPECTED_EOF;
                         }
-                        lex.type = TokenType.INTEGER;
-                        state = 13;
+                        else {
+                            ungetc(c);
+                            lex.type = TokenType.INTEGER;
+                            state = 13;
+                        }
                     }
                     break;
                 case 11:
