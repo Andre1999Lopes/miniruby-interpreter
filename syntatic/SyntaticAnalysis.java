@@ -2,7 +2,7 @@ package syntatic;
 
 import java.io.IOException;
 
-import interpreter.command.Command;
+// import interpreter.command.Command;
 import lexical.Lexeme;
 import lexical.LexicalAnalysis;
 import lexical.LexicalException;
@@ -18,13 +18,14 @@ public class SyntaticAnalysis {
 		this.current = lex.nextToken();
 	}
 
-	public Command start() throws LexicalException, IOException {
-		return null;
+	public void start() throws LexicalException, IOException {
+		procCode();
+		// eat(TokenType.END_OF_FILE);
 	}
 
 	private void advance() throws LexicalException, IOException {
-		// System.out.println("Advanced (\"" + current.token + "\", " +
-		//     current.type + ")");
+		System.out.println("Advanced (\"" + current.token + "\", " +
+		    current.type + ")");
 		current = lex.nextToken();
 	}
 
@@ -189,9 +190,26 @@ public class SyntaticAnalysis {
 
 	// <output> ::= ( puts | print ) [ <expr> ] [ <post> ] ';'
 	private void procOutput() throws LexicalException, IOException {
-		if (current.type == TokenType.PUTS || current.type == TokenType.PRINT) advance();
-		else showError();
+		if (current.type == TokenType.PUTS || current.type == TokenType.PRINT) {
+			advance();
 
+			if (
+				current.type == TokenType.ADD ||
+				current.type == TokenType.SUB ||
+				current.type == TokenType.INTEGER ||
+				current.type == TokenType.STRING ||
+				current.type == TokenType.ID ||
+				current.type == TokenType.OPEN_PAR
+			) {
+				procExpr();
+			}
+
+			if (current.type == TokenType.IF || current.type == TokenType.UNLESS) procPost();
+			
+			eat(TokenType.SEMI_COLON);
+		}
+		else showError();
+		
 	}
 
 	// <assign> ::= <access> { ',' <access> } '=' <expr> { ',' <expr> } [ <post> ] ';'
@@ -376,15 +394,25 @@ public class SyntaticAnalysis {
 	private void procArray() throws LexicalException, IOException {
 		eat(TokenType.OPEN_BRA);
 
-		if (current.type == TokenType.INTEGER) {
-			advance();
-			while (current.type == TokenType.COMMA) {
-				advance();
+		switch(current.type) {
+			case ADD:
+			case SUB:
+			case INTEGER:
+			case STRING:
+			case OPEN_BRA:
+			case ID:
+			case OPEN_PAR:
 				procExpr();
-			}
+				while (current.type == TokenType.COMMA) {
+					advance();
+					procExpr();
+				}
+				eat(TokenType.CLOSE_BRA);
+				break;
+			default:
+				eat(TokenType.CLOSE_BRA);
+				break;
 		}
-		else showError();
-		eat(TokenType.CLOSE_BRA);
 	}
 
 	// <access> ::= ( <id> | '(' <expr> ')' ) [ '[' <expr> ']' ]
