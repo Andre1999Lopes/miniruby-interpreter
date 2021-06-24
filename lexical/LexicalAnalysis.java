@@ -1,7 +1,6 @@
 package lexical;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.PushbackInputStream;
 
 public class LexicalAnalysis implements AutoCloseable {
@@ -10,7 +9,7 @@ public class LexicalAnalysis implements AutoCloseable {
     private SymbolTable st;
     private PushbackInputStream input;
 
-    public LexicalAnalysis(String filename) throws LexicalException {
+    public LexicalAnalysis(String filename) {
         try {
             input = new PushbackInputStream(new FileInputStream(filename));
         } catch (Exception e) {
@@ -21,15 +20,19 @@ public class LexicalAnalysis implements AutoCloseable {
         line = 1;
     }
 
-    public void close() throws IOException {
-        input.close();
+    public void close() {
+        try {
+            input.close();
+        } catch (Exception e) {
+            throw new LexicalException("Unable to close file");
+        }
     }
 
     public int getLine() {
         return this.line;
     }
 
-    public Lexeme nextToken() throws LexicalException, IOException {
+    public Lexeme nextToken() {
         Lexeme lex = new Lexeme("", TokenType.END_OF_FILE);
 
         int state = 1;
@@ -273,7 +276,7 @@ public class LexicalAnalysis implements AutoCloseable {
         return lex;
     }
 
-    private int getc() throws LexicalException {
+    private int getc() {
         try {
             return input.read();
         } catch (Exception e) {
@@ -281,7 +284,7 @@ public class LexicalAnalysis implements AutoCloseable {
         }
     }
 
-    private void ungetc(int c) throws LexicalException {
+    private void ungetc(int c) {
         if (c != -1) {
             try {
                 input.unread(c);
