@@ -1,5 +1,13 @@
 package interpreter.expr;
 
+import java.util.Vector;
+
+import interpreter.expr.RelOp;
+import interpreter.value.ArrayValue;
+import interpreter.value.IntegerValue;
+import interpreter.value.StringValue;
+import interpreter.value.Value;
+
 public class SingleBoolExpr extends BoolExpr {
 
     private Expr leftExpr;
@@ -14,8 +22,55 @@ public class SingleBoolExpr extends BoolExpr {
     }
 
     @Override
-    public boolean expr() { // OBS: Não sei fazer essa parte do expr, porém, deve retornar um boolean
-        return true;
+    public boolean expr() {
+        Value<?> left = this.leftExpr.expr();
+        Value<?> right = this.rightExpr.expr();
+        if (left instanceof IntegerValue && right instanceof IntegerValue) {
+
+            IntegerValue integerValueLeft = (IntegerValue) left;
+            IntegerValue integerValueRight = (IntegerValue) right;
+            Integer integerLeft = integerValueLeft.value();
+            Integer integerRight = integerValueRight.value();
+
+            switch (this.op) {
+                case EqualsOp:
+                    return integerLeft == integerRight;
+                case NotEqualsOp:
+                    return integerLeft != integerRight;
+                case LowerThanOp:
+                    return integerLeft < integerRight;
+                case LowerEqualOp:
+                    return integerLeft <= integerRight;
+                case GreaterThanOp:
+                    return integerLeft > integerRight;
+                case GreaterEqualOp:
+                    return integerLeft >= integerRight;
+                // TODO: default
+            }
+        } else if (left instanceof StringValue && right instanceof StringValue) {
+            StringValue stringValueLeft = (StringValue) left;
+            StringValue stringValueRight = (StringValue) right;
+            String stringLeft = stringValueLeft.value();
+            String stringRight = stringValueRight.value();
+
+            switch (this.op) {
+                case EqualsOp:
+                    return stringLeft.equals(stringRight);
+                case NotEqualsOp:
+                    return !stringLeft.equals(stringRight);
+                default:
+                    return false;
+            }
+
+        } else if (left instanceof StringValue && right instanceof ArrayValue
+                || left instanceof IntegerValue && right instanceof ArrayValue) {
+            ArrayValue arrayValueRight = (ArrayValue) right;
+            Vector<Value<?>> vector = arrayValueRight.value();
+
+            return vector.contains(left);
+
+        }
+        return false;
     }
 
 }

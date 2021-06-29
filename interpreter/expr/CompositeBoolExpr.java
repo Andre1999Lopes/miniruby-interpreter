@@ -3,10 +3,10 @@ package interpreter.expr;
 public class CompositeBoolExpr extends BoolExpr {
 
     private BoolExpr left;
-    private RelOp op;
+    private BoolOp op;
     private BoolExpr right;
 
-    public CompositeBoolExpr(BoolExpr left, RelOp op, BoolExpr right, int line) {
+    public CompositeBoolExpr(BoolExpr left, BoolOp op, BoolExpr right, int line) {
         super(line);
         this.left = left;
         this.op = op;
@@ -14,8 +14,17 @@ public class CompositeBoolExpr extends BoolExpr {
     }
 
     @Override
-    public boolean expr() { // OBS: Não sei fazer essa parte do expr, porém, deve retornar um boolean
-        return true;
+    public boolean expr() {
+        boolean booleanLeft = this.left.expr();
+        boolean booleanRight = this.right.expr();
+        switch (this.op) {
+            case AND:
+                return booleanLeft && booleanRight;
+            case OR:
+                return booleanLeft || booleanRight;
+            default:
+                return booleanLeft;
+        }
     }
 
 }

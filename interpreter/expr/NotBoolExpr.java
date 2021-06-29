@@ -10,8 +10,8 @@ public class NotBoolExpr extends BoolExpr {
     }
 
     @Override
-    public boolean expr() { // OBS: Não sei fazer essa parte do expr, porém, deve retornar um boolean
-        return true;
+    public boolean expr() {
+        return !expr.expr();
     }
 
 }
