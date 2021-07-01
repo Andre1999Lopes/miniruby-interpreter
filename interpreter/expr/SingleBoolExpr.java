@@ -2,7 +2,6 @@ package interpreter.expr;
 
 import java.util.Vector;
 
-import interpreter.expr.RelOp;
 import interpreter.util.Utils;
 import interpreter.value.ArrayValue;
 import interpreter.value.IntegerValue;
