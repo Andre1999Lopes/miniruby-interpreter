@@ -6,7 +6,7 @@ public class BlocksCommand extends Command {
 
 	private List<Command> cmds;
 
-	protected BlocksCommand(int line, List<Command> cmds) {
+	public BlocksCommand(int line, List<Command> cmds) {
 		super(line);
 		this.cmds = cmds;
 	}
