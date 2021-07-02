@@ -23,20 +23,21 @@ public class SyntaticAnalysis {
 		this.current = lex.nextToken();
 	}
 
-	public void start() {
-		procCode();
-		// eat(TokenType.END_OF_FILE);
+	public Command start() {
+		Command command = procCode();
+		eat(TokenType.END_OF_FILE);
+		return command;
 	}
 
 	private void advance() {
-		System.out.println("Advanced (\"" + current.token + "\", " +
-		    current.type + ")");
+		// System.out.println("Advanced (\"" + current.token + "\", " +
+		//     current.type + ")");
 		current = lex.nextToken();
 	}
 
 	private void eat(TokenType type) {
-		System.out.println("Expected (..., " + type + "), found (\"" + 
-			current.token + "\", " + current.type + ")");
+		// System.out.println("Expected (..., " + type + "), found (\"" + 
+		// 	current.token + "\", " + current.type + ")");
 		if (type == current.type) {
 			current = lex.nextToken();
 		} else {
