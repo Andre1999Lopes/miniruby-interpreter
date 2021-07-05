@@ -30,25 +30,23 @@ public class BinaryExpr extends Expr {
 		switch (this.op) {
 			case RangeWithOp:
 				if (left instanceof IntegerValue && right instanceof IntegerValue) {
-					int leftValue = (int) left.value();
-					int rightValue = (int) right.value();
+					int leftValue = Integer.parseInt(left.toString());
+					int rightValue = Integer.parseInt(right.toString());
 					Vector<Value<?>> result = new Vector<Value<?>>();
 
-					for (int i = leftValue; i <= rightValue; i++) {
+					for (int i = leftValue; i <= rightValue + 1; i++) {
 						result.add(new IntegerValue(i));
 					}
 					
 					value = new ArrayValue(result);
 				}
-				else {
-					Utils.abort(super.getLine());
-				}
-				break;
+				else Utils.abort(super.getLine());
+			break;
 
 				case RangeWithoutOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 						Vector<Value<?>> result = new Vector<Value<?>>();
 						
 						for (int i = leftValue; i < rightValue; i++) {
@@ -64,8 +62,8 @@ public class BinaryExpr extends Expr {
 
 				case AddOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = leftValue + rightValue;
 
@@ -99,8 +97,8 @@ public class BinaryExpr extends Expr {
 
 				case SubOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = leftValue - rightValue;
 
@@ -113,8 +111,8 @@ public class BinaryExpr extends Expr {
 
 				case MulOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = leftValue * rightValue;
 
@@ -127,8 +125,8 @@ public class BinaryExpr extends Expr {
 
 				case DivOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = leftValue / rightValue;
 
@@ -141,8 +139,8 @@ public class BinaryExpr extends Expr {
 
 				case ModOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = leftValue % rightValue;
 
@@ -155,8 +153,8 @@ public class BinaryExpr extends Expr {
 
 				case ExpOp:
 					if (left instanceof IntegerValue && right instanceof IntegerValue) {
-						int leftValue = (int) left.value();
-						int rightValue = (int) right.value();
+						int leftValue = Integer.parseInt(left.toString());
+						int rightValue = Integer.parseInt(right.toString());
 
 						int result = (int) Math.pow(leftValue,rightValue);
 

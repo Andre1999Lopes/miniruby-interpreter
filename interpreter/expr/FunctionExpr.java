@@ -33,11 +33,8 @@ public class FunctionExpr extends Expr {
 			case ToIntOp:
 				try {
 					if (!(value instanceof StringValue)) Utils.abort(super.getLine());
-					else {
-						StringValue stringValue = (StringValue) value;
 
-						value = new IntegerValue(Integer.parseInt(stringValue.value()));
-					}
+					else value = new IntegerValue(Integer.parseInt(value.toString()));
 				}
 				catch(Exception e) {
 					value = new IntegerValue(0);

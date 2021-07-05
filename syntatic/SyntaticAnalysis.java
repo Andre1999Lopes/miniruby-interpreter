@@ -1,6 +1,5 @@
 package syntatic;
 
-
 import interpreter.expr.ConstExpr;
 import interpreter.value.*;
 
@@ -67,7 +66,6 @@ public class SyntaticAnalysis {
 	// <code> ::= { <cmd> }
 	private BlocksCommand procCode() {
 		List<Command> commands = new ArrayList<Command>();
-		procCmd();
 		while (current.type == TokenType.IF ||
 				current.type == TokenType.UNLESS ||
 				current.type == TokenType.WHILE ||
@@ -527,7 +525,7 @@ public class SyntaticAnalysis {
 
 			case GETS:
 			case RAND:
-				procInput();
+				expr = procInput();
 				break;
 
 			case ID:

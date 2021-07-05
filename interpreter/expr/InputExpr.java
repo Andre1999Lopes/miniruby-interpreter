@@ -18,21 +18,17 @@ public class InputExpr extends Expr {
 	@Override
 	public Value<?> expr() {
 		Value<?> value = null;
+		Scanner scan = new Scanner(System.in);
 		
 		if (this.op == InputOp.GetsOp) {
-			Scanner scan = new Scanner(System.in);
 			String input = scan.nextLine().trim();
-
 			value = new StringValue(input);
-			scan.close();
 		}
 		else if (this.op == InputOp.RandOp) {
 			Random random = new Random();
 			value = new IntegerValue(random.nextInt());
 		}
-		else {
-			Utils.abort(super.getLine());
-		}
+		else Utils.abort(super.getLine());
 
 		return value;
 	}

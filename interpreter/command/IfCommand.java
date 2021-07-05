@@ -14,12 +14,14 @@ public class IfCommand extends Command{
 	}
 
 	public void setElseCommands(Command elseCmds) {
-
+		this.elseCmds = elseCmds;
 	}
 
 	@Override
 	public void execute() {
-		
+		if (this.cond.expr()) this.thenCmds.execute();
+
+		else if (this.elseCmds != null) this.elseCmds.execute();
 	}
 	
 }

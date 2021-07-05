@@ -11,15 +11,14 @@ public class UnlessCommand extends Command {
 		super(line);
 		this.cond = cond;
 		this.thenCmds = thenCmds;
-
-		if (elseCmds != null) this.elseCmds = elseCmds;
-
-		else this.elseCmds = null;
+		this.elseCmds = elseCmds;
 	}
 
 	@Override
 	public void execute() {
-		
+		if (!this.cond.expr()) this.thenCmds.execute();
+
+		else if (this.elseCmds != null) this.elseCmds.execute();
 	}
 	
 }
