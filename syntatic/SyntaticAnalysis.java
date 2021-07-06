@@ -129,7 +129,6 @@ public class SyntaticAnalysis {
 		if(current.type == TokenType.THEN) advance();
 
 		Command thenCommand = procCode();
-		// TODO: classe IfCommand
 		IfCommand ifCommand = new IfCommand(lex.getLine(), boolExpr, thenCommand);
 		List<IfCommand> arrayList = new ArrayList<IfCommand>();
 
@@ -180,7 +179,6 @@ public class SyntaticAnalysis {
 		}
 
 		eat(TokenType.END);
-		// TODO: classe UnlessCommand
 		return new UnlessCommand(lex.getLine(), boolExpr, thenCommand, elseCommand);
 	}
 
@@ -193,7 +191,6 @@ public class SyntaticAnalysis {
 
 		Command command = procCode();
 		eat(TokenType.END);
-		// TODO: classe WhileCommand
 		return new WhileCommand(lex.getLine(), boolExpr, command);
 	}
 
@@ -206,7 +203,6 @@ public class SyntaticAnalysis {
 
 		Command command = procCode();
 		eat(TokenType.END);
-		// TODO: classe UntilCommand
 		return new UntilCommand (lex.getLine(), boolExpr, command);
 	}
 
@@ -221,7 +217,6 @@ public class SyntaticAnalysis {
 
 		Command command = procCode();
 		eat(TokenType.END);
-		// TODO: classe ForCommand
 		return new ForCommand (lex.getLine(), var, expr, command);
 	}
 
@@ -254,7 +249,6 @@ public class SyntaticAnalysis {
             expr = procExpr();
         }
 		
-		// TODO: classe OutputCommand
         OutputCommand outputCommand = new OutputCommand(lex.getLine(), op, expr);
 
 		if (current.type == TokenType.IF || current.type == TokenType.UNLESS) command = procPost(outputCommand);
@@ -286,7 +280,6 @@ public class SyntaticAnalysis {
 			right.add(procExpr());
 		}
 
-		// TODO: classe AssignCommand
 		AssignCommand assignCommand = new AssignCommand(lex.getLine(), left, right);
 
 		if (current.type == TokenType.IF ||current.type == TokenType.UNLESS) command = procPost(assignCommand);
@@ -315,7 +308,6 @@ public class SyntaticAnalysis {
 
 		boolExpr = procBoolexpr();
 
-		// TODO: classes IfCommand e UnlessCommand
 		if(op == TokenType.IF) {
 			IfCommand ifCommand = new IfCommand(lex.getLine(), boolExpr, inCommand);
 			command = ifCommand;
