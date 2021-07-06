@@ -252,7 +252,7 @@ public class SyntaticAnalysis {
 			current.type == TokenType.OPEN_BRA
 		) {
             expr = procExpr();
-        }		
+        }
 		
 		// TODO: classe OutputCommand
         OutputCommand outputCommand = new OutputCommand(lex.getLine(), op, expr);
